@@ -1,4 +1,16 @@
-BEGIN;
+----------------------------------------------------------------------
+--     Database Modelling and Reporting Project: Create Tables      --
+--                                                                  --
+-- This project encapsulates creating tables, automating the        --
+-- creation of sample data, populating tables with the sample       --
+-- data and filtering and sorting data to prepare database reports. --
+----------------------------------------------------------------------
+
+-- This file is for creating the tables when the database is being first
+-- initialized and for clearing and resetting all tables (if needed)
+-- when the database already exists
+
+BEGIN; -- start by deleting all tables
 DROP TABLE IF EXISTS STUDENT_CREDENTIAL;
 DROP TABLE IF EXISTS CREDENTIAL;
 DROP TABLE IF EXISTS COURSE;
@@ -8,7 +20,7 @@ DROP TABLE IF EXISTS SCHEDULED_COURSE;
 DROP TABLE IF EXISTS INSTRUCTOR;
 COMMIT;
 
-BEGIN;
+BEGIN; -- create the table that holds all instructors
 CREATE TABLE INSTRUCTOR(
     instructorID INT NOT NULL PRIMARY KEY,
     firstName VARCHAR(255) NOT NULL,
@@ -22,7 +34,7 @@ CREATE TABLE INSTRUCTOR(
 );
 COMMIT;
 
-BEGIN;
+BEGIN; -- create the table that holds all scheduled courses
 CREATE TABLE SCHEDULED_COURSE(
     CRN INT NOT NULL PRIMARY KEY,
     semesterCode INT NOT NULL,
@@ -31,7 +43,7 @@ CREATE TABLE SCHEDULED_COURSE(
 );
 COMMIT;
 
-BEGIN;
+BEGIN; -- create the table that holds all student course records
 CREATE TABLE STUDENT_COURSE_RECORD(
     CRN INT NOT NULL REFERENCES SCHEDULED_COURSE(CRN),
     studentID INT UNIQUE NOT NULL,
@@ -42,7 +54,7 @@ CREATE TABLE STUDENT_COURSE_RECORD(
 );
 COMMIT;
 
-BEGIN;
+BEGIN; -- create the table that holds all students
 CREATE TABLE STUDENT(
     studentID INT NOT NULL PRIMARY KEY REFERENCES STUDENT_COURSE_RECORD(studentID),
     firstName VARCHAR(255),
@@ -53,7 +65,7 @@ CREATE TABLE STUDENT(
 );
 COMMIT;
 
-BEGIN;
+BEGIN; -- create the table that holds all courses
 CREATE TABLE COURSE(
     courseCode VARCHAR(7) UNIQUE NOT NULL PRIMARY KEY REFERENCES SCHEDULED_COURSE(courseCode),
     name VARCHAR(255) NOT NULL,
@@ -62,7 +74,7 @@ CREATE TABLE COURSE(
 );
 COMMIT;
 
-BEGIN;
+BEGIN; -- create the table that holds all credentials
 CREATE TABLE CREDENTIAL(
     credentialID INT NOT NULL PRIMARY KEY,
     school VARCHAR(255) NOT NULL,
@@ -71,7 +83,7 @@ CREATE TABLE CREDENTIAL(
 );
 COMMIT;
 
-BEGIN;
+BEGIN; -- create the table that holds all student credentials
 CREATE TABLE STUDENT_CREDENTIAL(
     startDate DATE NOT NULL,
     completionDate DATE NOT NULL,

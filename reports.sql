@@ -1,12 +1,24 @@
-SELECT
+----------------------------------------------------------------------
+--     Database Modelling and Reporting Project: Create Reports     --
+--                                                                  --
+-- This project encapsulates creating tables, automating the        --
+-- creation of sample data, populating tables with the sample       --
+-- data and filtering and sorting data to prepare database reports. --
+----------------------------------------------------------------------
+
+-- This file is used for filtering and sorting data to prepare individual
+-- reports on the database
+
+SELECT -- show a quick view of all students with relevant information
     firstname || ' ' || lastname as name,
     email,
     phonenumber as phone_number
 FROM
     student
+ORDER BY lastname
 ;
 
-SELECT
+SELECT -- show a quick view of all courses with relevant information
     coursecode as course_code,
     name,
     numofcredits as number_of_credits,
@@ -15,7 +27,7 @@ FROM
     course
 ;
 
-SELECT
+SELECT -- show all scheduled courses in section A and B
     *
 FROM
     scheduled_course
@@ -54,7 +66,7 @@ ORDER BY
     performance
 ;
 
-SELECT -- select failing students belonging to a specific course section
+SELECT -- select all failing students belonging to a specific course section
     sectioncode as section,
     firstname || ' ' || lastname as name,
     (SELECT
@@ -75,10 +87,15 @@ WHERE
     lettergrade = 'F' and sectioncode = 'C'
 ;
 
-SELECT -- count number of courses that
-
+SELECT -- count the number of courses that are in section E
+    count(sectioncode) number_of_sections,
+    coursecode
 FROM
-    student_course_record
+    (SELECT * FROM scheduled_course
+        WHERE sectioncode = 'E') as sc
+GROUP BY
+    coursecode
 ;
+
 
 

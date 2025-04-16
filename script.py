@@ -1,9 +1,18 @@
-import random
-import string
+######################################################################
+##     Database Modelling and Reporting Project: Create Samples     ##
+##                                                                  ##
+## This project encapsulates creating tables, automating the        ##
+## creation of sample data, populating tables with the sample       ##
+## data and filtering and sorting data to prepare database reports. ##
+######################################################################
 
+# This script is for automating the creation and insertion of sample
+# data into each table
+
+import random
 import psycopg2
 
-def write_database(query: str):
+def write_database(query: str): # create the database connection and run the provided query
     conn = None
     cur = None
 
@@ -29,7 +38,7 @@ def write_database(query: str):
             conn.close()
 
 
-for i in range(1,100+1):
+for i in range(1,100+1): # creates a sample of 100 instructors with mostly random information
     random_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
     rand_postcode = ""
 
@@ -52,7 +61,7 @@ for i in range(1,100+1):
     write_database(insert_query)
 
 
-for i in range(1,200+1):
+for i in range(1,200+1): # creates a sample of 200 scheduled courses with mostly random information
     sect_code = ['A', 'B', 'C', 'D', 'E', 'F']
     random_letter = sect_code[random.randint(0, len(sect_code)-1)]
 
@@ -69,7 +78,7 @@ for i in range(1,200+1):
 
 j = 1
 k = 1
-for i in range(1,5000+1):
+for i in range(1,5000+1): # creates a sample of 5000 student course records that correspond to each student
     if i % 125 == 0: # iterates through 5000 without going over 40 (course limit)
         j += 1
 
@@ -92,7 +101,7 @@ for i in range(1,5000+1):
     write_database(insert_query)
 
 
-for i in range(1,5000+1):
+for i in range(1,5000+1): # creates a sample of 5000 students that correspond to each student course record
     status = ['A', 'AP', 'S', 'E']
     random_status = status[random.randint(0, len(status)-1)]
     if(random_status == 'A'):
@@ -111,7 +120,7 @@ for i in range(1,5000+1):
     write_database(insert_query)
 
 
-for i in range(1,40+1):
+for i in range(1,40+1): # creates a sample of 40 credentials
     insert_query = f'''
         INSERT INTO credential VALUES (
             {i},
@@ -123,7 +132,7 @@ for i in range(1,40+1):
     write_database(insert_query)
 
 
-for i in range(1,200+1):
+for i in range(1,200+1): # creates a sample of 200 courses
     insert_query = f'''
         INSERT INTO course VALUES (
             'CCCC' || LPAD({1+i}::text, 3, '0')::VARCHAR,
